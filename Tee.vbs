@@ -32,7 +32,7 @@ On Error Resume Next
     If Err.Number <> 0 Then
         WScript.StdErr.WriteLine("Error : " & Err.Number & _
             Err.Description & ":" & _
-            fso.GetAbsolutePathName(targetFileName)
+            fso.GetAbsolutePathName(targetFileName))
     End If
 
 On Error Goto 0
