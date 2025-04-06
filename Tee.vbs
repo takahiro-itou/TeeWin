@@ -7,14 +7,17 @@ Dim targetFileName
 Dim fso
 Dim file
 
-ioMode = 2
+Const IO_MODE_WRITE  = 2
+Const IO_MODE_APPEND = 8
+
+ioMode = IO_MODE_WRITE
 
 For i = 0 To WScript.Arguments.Count - 1
     arg = WScript.Arguments.Item(i)
     If Left(arg, 1) = "/" Or Left(arg, 1) = "-" Then
         Select Case arg
         Case "/a", "-a", "/append", "--append"
-            ioMode = 8
+            ioMode = IO_MODE_APPEND
         End Select
     Else
         targetFileName = arg
