@@ -20,14 +20,20 @@ For i = 0 To WScript.Arguments.Count - 1
         Select Case arg
         Case "/a", "-a", "/append", "--append"
             ioMode = IO_MODE_APPEND
+        Case "/b", "-b", "/bufsize", "--bufsize"
+            i = i + 1
+            If i < WScript.Arguments.Count Then
+                bufSize = CInt(WScript.Arguments.Item(i))
+            End If
         End Select
     Else
         targetFileName = arg
     End If
 Next
 
-WScript.StdErr.WriteLine("出力ファイル :" & targetFileName)
-WScript.StdErr.WriteLine("ioMode = " & ioMode)
+WScript.StdErr.WriteLine("Output  = " & targetFileName)
+WScript.StdErr.WriteLine("ioMode  = " & ioMode)
+WScript.StdErr.WriteLine("bufSize = " & bufSize)
 
 
 Set fso = CreateObject("Scripting.FileSystemObject")
