@@ -36,3 +36,11 @@ On Error Resume Next
     End If
 
 On Error Goto 0
+
+Dim stdin, line
+Set stdin = WScript.Stdin
+Do Until stdin.AtEndOfStream
+    line = stdin.ReadLine()
+    Call  WScript.Echo(line)
+    Call  file.WriteLine(line)
+Loop
