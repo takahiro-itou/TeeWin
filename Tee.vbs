@@ -53,5 +53,5 @@ Set stdin = WScript.Stdin
 Do Until stdin.AtEndOfStream
     line = stdin.Read(bufSize)
     Call  WScript.StdOut.Write(line)
-    Call  file.WriteLine(line)
+    Call  file.Write(line)
 Loop
