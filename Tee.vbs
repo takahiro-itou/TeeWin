@@ -3,6 +3,7 @@ Option Explicit
 Dim ioMode
 Dim i
 Dim arg
+Dim bufSize
 Dim targetFileName
 Dim fso
 Dim file
@@ -11,6 +12,7 @@ Const IO_MODE_WRITE  = 2
 Const IO_MODE_APPEND = 8
 
 ioMode = IO_MODE_WRITE
+bufSize = 1
 
 For i = 0 To WScript.Arguments.Count - 1
     arg = WScript.Arguments.Item(i)
@@ -18,14 +20,20 @@ For i = 0 To WScript.Arguments.Count - 1
         Select Case arg
         Case "/a", "-a", "/append", "--append"
             ioMode = IO_MODE_APPEND
+        Case "/b", "-b", "/bufsize", "--bufsize"
+            i = i + 1
+            If i < WScript.Arguments.Count Then
+                bufSize = CInt(WScript.Arguments.Item(i))
+            End If
         End Select
     Else
         targetFileName = arg
     End If
 Next
 
-WScript.StdErr.WriteLine("出力ファイル :" & targetFileName)
-WScript.StdErr.WriteLine("ioMode = " & ioMode)
+WScript.StdErr.WriteLine("Output  = " & targetFileName)
+WScript.StdErr.WriteLine("ioMode  = " & ioMode)
+WScript.StdErr.WriteLine("bufSize = " & bufSize)
 
 
 Set fso = CreateObject("Scripting.FileSystemObject")
@@ -43,7 +51,7 @@ On Error Goto 0
 Dim stdin, line
 Set stdin = WScript.Stdin
 Do Until stdin.AtEndOfStream
-    line = stdin.ReadLine()
-    Call  WScript.Echo(line)
-    Call  file.WriteLine(line)
+    line = stdin.Read(bufSize)
+    Call  WScript.StdOut.Write(line)
+    Call  file.Write(line)
 Loop
